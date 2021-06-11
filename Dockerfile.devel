@@ -1,0 +1,7 @@
+FROM nvidia/cuda:11.3.1-devel
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt update && apt upgrade -y && apt install -y cmake make libomp-dev && mkdir -p /app/
+
+VOLUME /app
+WORKDIR /app
