@@ -41,8 +41,10 @@ namespace bmm_lib {
 				  const I Aj[], const T Ax[], I Bp[], I Bj[], T Bx[]);
 
   template<class I, class T>
-  void coo_to_csc(const I n_row, const I n_col, const I nnz, const I Ai[],
-				  const I Aj[], const T Ax[], I Bp[], I Bi[], T Bx[]);
+  void coo_to_csc(const I n_row, const I n_col, const I nnz, const I *Ai,
+				  const I *Aj, const T *Ax, I *Bp, I *Bi, T *Bx);
+
 } // namespace bmm_lib
+#include "coo.cpp"
 
 #endif // SPARSE_BOOLEAN_MATRIX_MULTIPLICATION_COO_HPP
