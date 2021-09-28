@@ -14,7 +14,7 @@
 # BOOST_FOUND - A boolean that checks if Boost is found
 
 
-find_package(Boost 1.75.0 REQUIRED COMPONENTS program_options)
+find_package(Boost 1.71.0 REQUIRED COMPONENTS program_options)
 set(BOOST_INCLUDE_DIRS ${Boost_INCLUDE_DIRS})
 set(BOOST_LIBRARIES ${Boost_LIBRARIES})
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS} ${Boost_LIBRARY_DIRS})
