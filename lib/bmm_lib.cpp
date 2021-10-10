@@ -99,4 +99,51 @@ void bmm_lib::read_matrix(FILE* f, std::vector<uint32_t>& I,
   col_count = N;
 }
 #endif
+
+
+int bmm_lib::fRand(int min, int max){
+  std::random_device rd;
+  std::mt19937 mt(rd());
+  std::uniform_real_distribution<double> dist(0, 1);
+  int f = (int) dist(mt);
+  return min + f * (max - min);
+}
+
+
+void bmm_lib::create_csc_matrices(std::vector<std::vector<uint32_t>>& matrix, bmm_lib::CSCMatrix& mat) {
+  std::random_device rnd_device;
+  // Specify the engine and distribution.
+  std::mt19937 mersenne_engine {rnd_device()};  // Generates random integers
+  std::uniform_int_distribution<int> dist {0, 1};
+
+  auto gen = [&dist, &mersenne_engine](){
+	return dist.min() + dist(mersenne_engine)* (dist.max()- dist.min());};
+
+  long non_zero_count = 0;
+  for(auto& row: matrix){
+	std::generate(row.begin(), row.end(), gen);
+	std::transform(row.begin(), row.end(), row.begin(), [&](uint32_t i){
+	  if (i>0){
+		++non_zero_count;
+	  }
+	  return i;
+	});
+  }
+  mat.c_values.resize(non_zero_count);
+
+
+  convert_dense_to_csc(matrix, mat);
+}
+
+
+void bmm_lib::convert_dense_to_csc(std::vector<std::vector<uint32_t>>& dense, bmm_lib::CSCMatrix& sparse){
+  for(int i=0; i < dense.size(); ++i){
+	for(int j=0; j < dense.at(i).size(); ++j){
+	  if(dense.at(i).at(j) > 0){
+		sparse.cscRow.push_back(i);
+		sparse.cscColumn.push_back(j);
+		sparse.c_values.push_back(dense.at(i).at(j));
+	  }
+	}
+  }
 }

@@ -4,6 +4,7 @@
 #include <boost/program_options.hpp>
 #include <iostream>
 #include <ostream>
+#include <random>
 #include <string>
 #include <vector>
 #ifdef USE_MMIO_MATRICES
@@ -23,6 +24,9 @@ namespace bmm_lib {
 	int row_count;
 	int col_count;
   };
+  void create_csc_matrices(std::vector<std::vector<uint32_t>>& matrix, bmm_lib::CSCMatrix& mat);
+  void convert_dense_to_csc(std::vector<std::vector<uint32_t>>& dense, CSCMatrix& sparse);
+  int fRand(int min, int max);
 } // namespace bmm_lib
 
 #endif // SPARSE_BOOLEAN_MATRIX_MULTIPLICATION_BMM_LIB_H
