@@ -8,10 +8,18 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
 }
 
 void bmm_lib::parse_cli(int nargs, char** args,
-						std::vector<std::string>& paths) {
+						std::vector<std::string>& paths,
+						std::vector<std::string>& dimensions) {
   po::options_description desc("Allowed options");
-  desc.add_options()("help", "produce help message")(
-	  "path,p", po::value<std::vector<std::string>>(), "input path to file");
+  desc.add_options()
+	  ("help", "produce help message")
+#ifdef USE_MMIO_MATRICES
+	  ("path,p", po::value<std::vector<std::string>>(), "input path to file")
+#endif
+#ifdef USE_RANDOM_MATRICES
+	  ("dimensions,d", po::value<std::vector<std::string>>(), "dimensions of matrices to generate")
+#endif
+	  ;
   po::variables_map vm;
   po::store(po::parse_command_line(nargs, args, desc), vm);
   po::notify(vm);
@@ -19,12 +27,16 @@ void bmm_lib::parse_cli(int nargs, char** args,
 	std::cout << desc << std::endl;
 	return;
   }
+#ifdef USE_MMIO_MATRICES
   paths = vm.count("path") ? vm["path"].as<std::vector<std::string>>()
 						   : std::vector<std::string>();
+#endif
+#ifdef USE_RANDOM_MATRICES
+  dimensions = vm.count("dimensions") ? vm["dimensions"].as<std::vector<std::string>>(): std::vector<std::string>();
+#endif
 }
 #ifdef USE_MMIO_MATRICES
 void bmm_lib::read_matrix(FILE* f, std::vector<uint32_t>& I,
-						  std::vector<uint32_t>& J, std::vector<uint32_t>& val) {
   MM_typecode matcode;
   int M, N, nnz;
   uint32_t i;
