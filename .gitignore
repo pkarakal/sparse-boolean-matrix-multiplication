@@ -101,3 +101,4 @@ lib/definitions.h
 
 # Executables
 sbmm
+sbmm_seq

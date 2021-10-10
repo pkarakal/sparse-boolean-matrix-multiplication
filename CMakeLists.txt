@@ -10,7 +10,8 @@ endif()
 find_package(PkgConfig)
 
 option(ENABLE_BOOST "Enable Boost support" ON)
-option(ENABLE_MMIO "Enable Matrix Market matrices support" ON)
+option(ENABLE_MMIO "Enable Matrix Market matrices support" OFF)
+option(ENABLE_RANDOM_MATRICES "Enable Random Matrices support" ON)
 
 if(ENABLE_BOOST)
     include(cmake/FindBoost.cmake)
@@ -26,13 +27,19 @@ if(ENABLE_MMIO)
     set(USE_MMIO_MATRICES 1)
 endif()
 
+if(ENABLE_RANDOM_MATRICES)
+    set(USE_RANDOM_MATRICES 1)
+endif()
+
 configure_file(lib/definitions.h.in lib/definitions.h)
 
 add_library(coo2csc OBJECT lib/coo.cpp lib/coo.hpp)
 add_library(bmm_lib OBJECT lib/bmm_lib.h lib/bmm_lib.cpp)
 
 add_executable(sbmm main.cu)
+add_executable(sbmm_seq src/sbmm_sequential.cpp)
 target_link_libraries(sbmm PUBLIC bmm_lib coo2csc)
+target_link_libraries(sbmm_seq PUBLIC bmm_lib coo2csc)
 set_target_properties(
         sbmm
         PROPERTIES
