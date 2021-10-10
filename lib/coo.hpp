@@ -41,8 +41,26 @@ namespace bmm_lib {
 				  const I Aj[], const T Ax[], I Bp[], I Bj[], T Bx[]);
 
   template<class I, class T>
-  void coo_to_csc(const I n_row, const I n_col, const I nnz, const I *Ai,
-				  const I *Aj, const T *Ax, I *Bp, I *Bi, T *Bx);
+  void coo_to_csc(const I n_row, const I n_col, const I nnz, const I* Ai,
+				  const I* Aj, const T* Ax, I* Bp, I* Bi, T* Bx);
+  template<class I, class T>
+  void csr_matmat(const I n_row, const I n_col, const I Ap[], const I *Aj,
+				  const T *Ax, const I *Bp, const I *Bj, const T *Bx,
+				  I *Cp, I *Cj, T *Cx);
+
+  template<class I, class T>
+  void csc_matmat(const I n_row, const I n_col, const I Ap[], const I *Aj,
+				  const T *Ax, const I *Bp, const I *Bj, const T *Bx,
+				  I *Cp, I *Cj, T *Cx);
+
+  template<class I, class T>
+  void csr_todense(const I n_row, const I n_col, const I Ap[], const I Aj[],
+				   const T Ax[], T Bx[]);
+
+  template<class I, class T>
+  void csc_todense(const I n_row, const I n_col, const I Ap[], const I Aj[],
+				   const T Ax[], T Bx[]);
+
 
 } // namespace bmm_lib
 #include "coo.cpp"
