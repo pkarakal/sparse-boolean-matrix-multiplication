@@ -25,6 +25,7 @@ namespace bmm_lib {
 	int col_count;
   };
   void create_csc_matrices(std::vector<std::vector<uint32_t>>& matrix, bmm_lib::CSCMatrix& mat);
+  void slice_matrix(CSCMatrix& matrix, CSCMatrix& ref_matrix);
   void convert_dense_to_csc(std::vector<std::vector<uint32_t>>& dense, CSCMatrix& sparse);
   int fRand(int min, int max);
 } // namespace bmm_lib
