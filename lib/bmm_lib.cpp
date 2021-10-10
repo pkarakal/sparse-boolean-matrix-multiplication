@@ -37,6 +37,8 @@ void bmm_lib::parse_cli(int nargs, char** args,
 }
 #ifdef USE_MMIO_MATRICES
 void bmm_lib::read_matrix(FILE* f, std::vector<uint32_t>& I,
+						  std::vector<uint32_t>& J, std::vector<uint32_t>& val,
+						  int& row_count, int& col_count) {
   MM_typecode matcode;
   int M, N, nnz;
   uint32_t i;
@@ -61,9 +63,9 @@ void bmm_lib::read_matrix(FILE* f, std::vector<uint32_t>& I,
   if (mm_read_mtx_crd_size(f, &M, &N, &nnz) != 0)
 	exit(1);
 
-  I = std::vector<uint32_t>(nnz);
-  J = std::vector<uint32_t>(nnz);
-  val = std::vector<uint32_t>(nnz);
+  I.resize(nnz);
+  J.resize(nnz);
+  val.resize(nnz);
 
   /* NOTE: when reading in doubles, ANSI C requires the use of the "l"  */
   /*   specifier as in "%lg", "%lf", "%le", otherwise errors will occur */
@@ -93,5 +95,8 @@ void bmm_lib::read_matrix(FILE* f, std::vector<uint32_t>& I,
   if (M != N) {
 	printf("COO matrix' columns and rows are not the same");
   }
+  row_count = M;
+  col_count = N;
 }
 #endif
+}

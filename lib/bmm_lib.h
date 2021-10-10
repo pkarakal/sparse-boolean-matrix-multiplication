@@ -14,6 +14,7 @@ namespace bmm_lib {
   void parse_cli(int nargs, char** args, std::vector<std::string>& paths, std::vector<std::string>& dimensions);
 #ifdef USE_MMIO_MATRICES
   void read_matrix(FILE* f, std::vector<uint32_t>& I, std::vector<uint32_t>& J,
+				   std::vector<uint32_t>& val, int& row_count, int& col_count);
 #endif
 } // namespace bmm_lib
 
